@@ -1,12 +1,21 @@
+module Main where
+main :: IO ()
+main = do
+ print ("Enter Pascal's row number")
+ let gowno = [1, 2, 3]
+ let x = func gowno
+ print x
+ n <- getLine
+ print "essa"
+{- 1 , 2 , 3  -}
 
-{- lista l jest na poczatku pusta -}
+print' :: p -> p
+print' x = x
 
-zip' 
-
-func :: [[a]] -> Int -> [b] -> [[a]]
-func l index origin =
-  let p1 = l
-      
-  in p1 ++ p2
-
-
+func :: [a] -> [a]
+func [] = []
+func (n:dupa) =
+ 
+ func dupa
+ 
+  
