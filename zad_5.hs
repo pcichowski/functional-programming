@@ -1,21 +1,25 @@
 module Main where
-main :: IO ()
-main = do
- print ("Enter Pascal's row number")
- let gowno = [1, 2, 3]
- let x = func gowno
- print x
- n <- getLine
- print "essa"
-{- 1 , 2 , 3  -}
 
-print' :: p -> p
-print' x = x
+main :: t
+main = do 
+ print driver konwertuj [1, 2, 3]
+ 
+{- TODO linijka 5 -}
 
-func :: [a] -> [a]
-func [] = []
-func (n:dupa) =
- 
- func dupa
- 
-  
+{- driver obsługuje każdy element listy od jej końca -}
+driver :: [[a]] -> [[a]]
+driver [] = driver [[]]
+driver (n:ls) =
+ driver ls ++ dodajDoKazdego ls n
+
+{-  dodajDoKazdego dodaje element np. [8] do listy list np [ [1], [2] ] -> [ [1], [2], [8] ] -}
+dodajDoKazdego :: [[a]] -> [a] -> [[a]]
+dodajDoKazdego [] elem = [ elem ]
+dodajDoKazdego (n:ls) elem =
+ [n ++ elem] ++ dodajDoKazdego ls elem
+
+konwertuj :: [a] -> [[a]]
+konwertuj [] = [[]]
+konwertuj [x] = [[x]]
+konwertuj (n:ls) =
+ [ n ] : konwertuj ls
