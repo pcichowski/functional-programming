@@ -3,7 +3,7 @@
 
 ## Lista zadań:
 
-- [ ] **Zadanie 5**
+- [x] **Zadanie 5**
 
   - >Dla danego zbioru w postaci listy L obliczyć jego zbiór potęgowy.
 - [ ] **Zadanie 21**
