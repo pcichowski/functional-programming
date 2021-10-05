@@ -2,7 +2,7 @@ module Main where
 
 main :: t
 main = do 
- print driver konwertuj [1, 2, 3]
+ printElements driver konwertuj [1, 2, 3]
  
 {- TODO linijka 5 -}
 
@@ -23,3 +23,8 @@ konwertuj [] = [[]]
 konwertuj [x] = [[x]]
 konwertuj (n:ls) =
  [ n ] : konwertuj ls
+
+printElements :: Show a => [[a]] -> [IO ()]
+printElements l = do
+ map print l  
+ 
