@@ -1,20 +1,24 @@
 module Main where
 
-main :: t
-main = do 
- printElements driver konwertuj [1, 2, 3]
+main :: IO ()
+main = do
+ let dupa = [ [1], [2] ]
+  in  putStrLn ( printListElements (driver dupa) )
+ n <- getLine 
+ return ()
  
 {- TODO linijka 5 -}
 
 {- driver obsługuje każdy element listy od jej końca -}
 driver :: [[a]] -> [[a]]
-driver [] = driver [[]]
+driver [] = [[]]
+driver [n] = [[] , n]
 driver (n:ls) =
- driver ls ++ dodajDoKazdego ls n
+ driver ls ++ dodajDoKazdego (driver ls) n
 
-{-  dodajDoKazdego dodaje element np. [8] do listy list np [ [1], [2] ] -> [ [1], [2], [8] ] -}
+{-  dodajDoKazdego dodaje element np. [8] do listy list np [ [], [1], [2] ] -> [ [8], [1, 8], [2, 8] ] -}
 dodajDoKazdego :: [[a]] -> [a] -> [[a]]
-dodajDoKazdego [] elem = [ elem ]
+dodajDoKazdego [] _ = []
 dodajDoKazdego (n:ls) elem =
  [n ++ elem] ++ dodajDoKazdego ls elem
 
@@ -22,9 +26,10 @@ konwertuj :: [a] -> [[a]]
 konwertuj [] = [[]]
 konwertuj [x] = [[x]]
 konwertuj (n:ls) =
- [ n ] : konwertuj ls
+  [n] : konwertuj ls
 
-printElements :: Show a => [[a]] -> [IO ()]
-printElements l = do
- map print l  
- 
+printListElements :: Show a => [[a]] -> String
+printListElements [[]] = ""
+printListElements [] = ""
+printListElements (n:ls) = 
+ show n ++ " " ++ printListElements ls
