@@ -27,3 +27,8 @@ nadal jest liczbą pierwszą. Taką liczbą jest 197 i jej dwie możliwe rotacje
   prufer_code [(1, 4), (2, 4), (3, 4)]
   > [4, 4]
   ```
+
+## Przydatne zasoby
+- [***Poradnik wideo***](https://www.youtube.com/channel/UC3xdLFFsqG701QAyGJIPT1g/videos)
+- [***Poradnik tekstowy***](http://learnyouahaskell.com/chapters)
+- [***Wiki dla podstawowego modułu***](https://hackage.haskell.org/package/base-4.15.0.0/docs/index.html)
