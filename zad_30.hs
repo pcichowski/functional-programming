@@ -14,8 +14,8 @@ usunDuplikaty (x:xs) =
   then  usunDuplikaty xs
  else x : usunDuplikaty xs
 
-rozkrkrotkuj :: [(a,a)] -> [a]
-rozkrkrotkuj [] = []
-rozkrkrotkuj (x:xs) = fst x : [snd x] ++ rozkrkrotkuj xs
+rozkrotkuj :: [(a,a)] -> [a]
+rozkrotkuj [] = []
+rozkrotkuj (x:xs) = fst x : [snd x] ++ rozkrotkuj xs
 
 
