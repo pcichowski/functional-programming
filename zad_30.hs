@@ -34,8 +34,9 @@ przeniesPierwszyElement :: [a] -> [[a]] -> [a]
 przeniesPierwszyElement xs (y:ys) =
  xs ++ y
 
-rozkrkrotkuj :: [(a,a)] -> [a]
-rozkrkrotkuj [] = []
-rozkrkrotkuj (x:xs) = fst x : snd x : rozkrkrotkuj xs
+rozkrotkuj :: [(a,a)] -> [a]
+rozkrotkuj [] = []
+rozkrotkuj (x:xs) = fst x : [snd x] ++ rozkrotkuj xs
+
 
 
