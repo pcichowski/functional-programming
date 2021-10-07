@@ -3,9 +3,14 @@
 
 ## Lista zadań:
 
-- [ ] **Zadanie 5**
+- [x] **Zadanie 5**
 
   - >Dla danego zbioru w postaci listy L obliczyć jego zbiór potęgowy.
+  - Instrukcja użytkowania programu:
+    - Załadowanie modułu poprzez  :l zad_5.hs
+    - Na wejściu podawana jest zwykła lista *( np. [1, 2, 3] )*
+    - >driver (konwertuj [1, 2, 3])
+  
 - [ ] **Zadanie 21**
 
   - >Dla danej liczby naturalnej n podaj wszystkie liczby pierwsze ≤ n dla których każda rotacja ich cyfr
@@ -27,3 +32,8 @@ nadal jest liczbą pierwszą. Taką liczbą jest 197 i jej dwie możliwe rotacje
   prufer_code [(1, 4), (2, 4), (3, 4)]
   > [4, 4]
   ```
+
+## Przydatne zasoby
+- [***Poradnik wideo***](https://www.youtube.com/channel/UC3xdLFFsqG701QAyGJIPT1g/videos)
+- [***Poradnik tekstowy***](http://learnyouahaskell.com/chapters)
+- [***Wiki dla podstawowego modułu***](https://hackage.haskell.org/package/base-4.15.0.0/docs/index.html)
