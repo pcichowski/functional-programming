@@ -6,6 +6,11 @@
 - [x] **Zadanie 5**
 
   - >Dla danego zbioru w postaci listy L obliczyć jego zbiór potęgowy.
+  - Instrukcja użytkowania programu:
+    - Załadowanie modułu poprzez  :l zad_5.hs
+    - Na wejściu podawana jest zwykła lista *( np. [1, 2, 3] )*
+    - >driver (konwertuj [1, 2, 3])
+  
 - [ ] **Zadanie 21**
 
   - >Dla danej liczby naturalnej n podaj wszystkie liczby pierwsze ≤ n dla których każda rotacja ich cyfr
