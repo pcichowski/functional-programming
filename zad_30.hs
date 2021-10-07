@@ -13,3 +13,9 @@ usunDuplikaty (x:xs) =
  if length x > 1
   then  usunDuplikaty xs
  else x : usunDuplikaty xs
+
+rozkrkrotkuj :: [(a,a)] -> [a]
+rozkrkrotkuj [] = []
+rozkrkrotkuj (x:xs) = fst x : [snd x] ++ rozkrkrotkuj xs
+
+
