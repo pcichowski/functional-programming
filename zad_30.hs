@@ -72,29 +72,35 @@ TODO
    Expected: [a]
     Actual: [a -> a]
 LINIJKA 77
-
+-}
 rob :: Ord a => [(a, a)] -> [a] -> [a]
 rob l (y:ys) =
- wybierzZKrotki (wytnijKrotke l y) : (rob (wytnijReszte l y) wierzcholki(wytnijReszte l y))
--}
+ let elementNaWyjscie = wybierzZKrotki (wytnijKrotke l y) y
+     resztaElementow = wytnijReszte l y
+  in
+   elementNaWyjscie : rob resztaElementow (wierzcholki resztaElementow)
+
+   
+ 
 
 {-  -}
-wytnijKrotke :: Eq a => [(a, a)] -> a -> Maybe (a, a)
+wytnijKrotke :: Eq a => [(a, a)] -> a -> (a, a)
 wytnijKrotke l y = 
  if y `elem` rozkrotkuj l
-  then Just (head (filter (\x -> fst x == y || snd x == y) l))
- else Nothing
+  then head (filter (\x -> fst x == y || snd x == y) l)
+ else head l
  
 wybierzZKrotki :: Eq a => (a, a) -> a -> a
-wybierzZKrotki (x,y) z
+wybierzZKrotki (x, y) z
  | x == z = x
- | otherwise = y
+ | y == z = y
+ | otherwise = x
 
-wytnijReszte :: Eq a => [(a,a)] -> a -> Maybe [(a,a)]
+wytnijReszte :: Eq a => [(a,a)] -> a -> [(a,a)]
 wytnijReszte l y = 
  if y `elem` rozkrotkuj l
-  then Just (filter (\x -> fst x /= y && snd x /= y) l)
- else Nothing
+  then filter (\x -> fst x /= y && snd x /= y) l
+ else l
  
 
 {-rob (sortuj xs) wierzcholki (y:ys)-}
