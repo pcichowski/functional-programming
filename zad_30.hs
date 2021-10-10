@@ -56,6 +56,7 @@ konwertuj [] = []
 konwertuj ([x]:xs) =
  x : konwertuj xs
 
+konwertuj' :: [(a, b)] -> (a, b)
 konwertuj' [(a,b)] =
  (a,b)
 
@@ -71,24 +72,30 @@ TODO
    Expected: [a]
     Actual: [a -> a]
 LINIJKA 77
--}
+
 rob :: Ord a => [(a, a)] -> [a] -> [a]
 rob l (y:ys) =
  wybierzZKrotki (wytnijKrotke l y) : (rob (wytnijReszte l y) wierzcholki(wytnijReszte l y))
+-}
 
-{- TODO maybe -}
-wytnijKrotke :: Eq a => [(a, a)] -> a -> (a, a)
-wytnijKrotke l y =
-  head (filter (\x -> fst x == y || snd x == y) l)
+{-  -}
+wytnijKrotke :: Eq a => [(a, a)] -> a -> Maybe (a, a)
+wytnijKrotke l y = 
+ if y `elem` rozkrotkuj l
+  then Just (head (filter (\x -> fst x == y || snd x == y) l))
+ else Nothing
  
 wybierzZKrotki :: Eq a => (a, a) -> a -> a
 wybierzZKrotki (x,y) z
  | x == z = x
  | otherwise = y
 
-wytnijReszte :: Eq a => [(a,a)] -> a -> [(a,a)]
+wytnijReszte :: Eq a => [(a,a)] -> a -> Maybe [(a,a)]
 wytnijReszte l y = 
- filter (\x -> fst x /= y && snd x /= y) l
+ if y `elem` rozkrotkuj l
+  then Just (filter (\x -> fst x /= y && snd x /= y) l)
+ else Nothing
+ 
 
 {-rob (sortuj xs) wierzcholki (y:ys)-}
 
