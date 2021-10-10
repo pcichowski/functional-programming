@@ -8,3 +8,6 @@ isPrimal n = if n > 1 then isEmpty [x | x <- [2..(n `div` 2)], n `mod` x == 0]  
 isEmpty :: [x] -> Bool
 isEmpty [] = True
 isEmpty xs = False
+
+createPrimalList :: Int -> [Int]
+createPrimalList n = [x | x <- [2..n], isPrimal x]
