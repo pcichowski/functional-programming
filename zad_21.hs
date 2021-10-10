@@ -11,3 +11,7 @@ isEmpty xs = False
 
 createPrimalList :: Int -> [Int]
 createPrimalList n = [x | x <- [2..n], isPrimal x]
+
+numberToListOfDigits :: Int -> [Int]
+numberToListOfDigits 0 = []
+numberToListOfDigits n = numberToListOfDigits(n `div` 10) ++ [n `mod` 10]
