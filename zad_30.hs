@@ -66,14 +66,9 @@ wierzcholki :: (Ord a) => [(a, a)] -> [a]
 wierzcholki x =
  konwertuj (usunDuplikaty (grupuj (qsort (rozkrotkuj x))))
 
-{-
-TODO
-   Couldn't match type ‘a’ with ‘a -> a’
-   Expected: [a]
-    Actual: [a -> a]
-LINIJKA 77
--}
 rob :: Ord a => [(a, a)] -> [a] -> [a]
+rob [] _ = []
+rob _ [x, y] = []
 rob l (y:ys) =
  let elementNaWyjscie = wybierzZKrotki (wytnijKrotke l y) y
      resztaElementow = wytnijReszte l y
