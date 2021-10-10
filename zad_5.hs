@@ -8,28 +8,23 @@ main =
     następnie konkatenuje z drugą kopią     -}
 driver :: [[a]] -> [[a]]
 driver [] = [[]]
-driver (n:ls) =
- driver ls ++ dodajDoKazdego (driver ls) n
-dodajDoKazdego :: [[a]] -> [a] -> [[a]]
-dodajDoKazdego [] _ = []
-dodajDoKazdego (n:ls) elem =
- (n ++ elem) : dodajDoKazdego ls elem
+driver (x:xs) =
+ driver xs ++ addToEachElement (driver xs) x
 
-{-  konwertuj zamienia postać listy na listę singletonów
+{- addToEachElement dodaje dany element do listy list
+   np. addToEachElement [[1],[2],[3]] 8 => [[1, 8], [2, 8], [3, 8]] -}
+addToEachElement :: [[a]] -> [a] -> [[a]]
+addToEachElement [] _ = []
+addToEachElement (x:xs) y =
+ (x ++ y) : addToEachElement xs y
+
+{-  convertToListOfLists zamienia postać listy na listę singletonów
     np [1, 2, 3] -> [[1], [2], [3]]     -}
-konwertuj :: [a] -> [[a]]
-konwertuj [] = [[]]
-konwertuj [x] = [[x]]
-konwertuj (n:ls) =
-  [n] : konwertuj ls
+convertToListOfLists :: [a] -> [[a]]
+convertToListOfLists [x] = [[x]]
+convertToListOfLists (x:xs) =
+  [x] : convertToListOfLists xs
 
-{-  printListElements zamienia listę na zwykłego stringa    -}
-printListElements :: Show a => [[a]] -> String
-printListElements [[]] = ""
-printListElements [] = ""
-printListElements (n:ls) =
- show n ++ " " ++ printListElements ls
-
-{-  zbiorPotegowy to końcowa funkcja która przyjmuję listę i zwraca zbiór potegowy-}
-zbiorPotegowy :: [a] -> [[a]]
-zbiorPotegowy x = driver (konwertuj x) 
+{-  powerSet to końcowa funkcja która przyjmuję listę i zwraca zbiór potegowy-}
+powerSet :: [a] -> [[a]]
+powerSet x = driver (convertToListOfLists x) 
