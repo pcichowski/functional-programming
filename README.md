@@ -9,7 +9,7 @@
   - Instrukcja użytkowania programu:
     - Załadowanie modułu poprzez  :l zad_5.hs
     - Na wejściu podawana jest zwykła lista *( np. [1, 2, 3] )*
-    - >driver (konwertuj [1, 2, 3])
+    - >zbiorPotegowy [1, 2, 3]
   
 - [ ] **Zadanie 21**
 
