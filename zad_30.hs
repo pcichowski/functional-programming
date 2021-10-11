@@ -61,64 +61,35 @@ konwertuj' :: [(a, b)] -> (a, b)
 konwertuj' [(a,b)] =
  (a,b)
 
-{- wierzchołki zwraca wierzchołki pierwszego stopnia z grafu (z formatu wejściowego)
+{- wierzchołki zwraca wierzchołki pierwszego stopnia(liście) z grafu (z formatu wejściowego)
    np. [(1, 3), (3, 5)]  =>  [1, 5] -}
 wierzcholki :: (Ord a) => [(a, a)] -> [a]
 wierzcholki x =
  konwertuj (usunDuplikaty (grupuj (qsort (rozkrotkuj x))))
 
-rob :: Ord a => [(a, a)] -> [a] -> [a]
-rob [] _ = []
-rob _ [x, y] = []
-rob l (y:ys) =
- let elementNaWyjscie = wybierzZKrotki (wytnijKrotke l y) y
-     resztaElementow = wytnijReszte l y
-  in
-   elementNaWyjscie : rob resztaElementow (wierzcholki resztaElementow)
-
-
-
-
-{-  -}
+{- zwraca krotke z elementem podanym jako drugi argument
+np. [(1,2),(1,3)] 2 => (1,2) -}
 wytnijKrotke :: Eq a => [(a, a)] -> a -> (a, a)
 wytnijKrotke l y =
  if y `elem` rozkrotkuj l
   then head (filter (\x -> fst x == y || snd x == y) l)
  else head l
 
+{- wybiera inny element z krotki 
+np. (1,2) 2 => 1-}
 wybierzZKrotki :: Eq a => (a, a) -> a -> a
 wybierzZKrotki (x, y) z
  | x == z = y
  | y == z = x
  | otherwise = x
 
+{- zwraca liste krotek bez krotki, w której znajduje sie element podany jako argument
+np. [(1,2),(1,3),(1,4)] 2 => [(1,3),(1,4)]-}
 wytnijReszte :: Eq a => [(a,a)] -> a -> [(a,a)]
 wytnijReszte l y =
  if y `elem` rozkrotkuj l
   then filter (\x -> fst x /= y && snd x /= y) l
  else l
-
-
-
-
-{-rob (sortuj xs) wierzcholki (y:ys)-}
-
-
-{- 
-sortuj :: [(a, a)] -> [a] -> [(a, a)]-}
-{-sortuj (x:y:xs) (z:zs) =
-if  
-then x ++ sortuj(y:xs)
-else
-y ++ sortuj (x:xs) -}
-{-
-porownaj :: (a, a) -> (a, a) -> [a] -> Bool
-porownaj (a, b) (c, d) filtr =
- elem a filtr || elem b filtr-}
-
--- genereujPrufera :: Eq a => [(a,a)] -> [a] -> [a] -> [a]
--- genereujPrufera [] _  _ = []
--- genereujPrufera krotki wiercholki wynik = wynik ++ genereujPrufera (wytnijReszte krotki (head wiercholki)) (tail wiercholki) [(wybierzZKrotki (wytnijKrotke krotki (head wiercholki)) (head wiercholki))]
 
 generujPrufera :: (Eq a, Ord a )=> [(a,a)] -> [a] -> [a]
 generujPrufera []  _ = []
