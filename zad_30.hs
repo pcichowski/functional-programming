@@ -91,9 +91,11 @@ cutRest l y =
   then filter (\x -> fst x /= y && snd x /= y) l
  else l
 
-generujPrufera :: (Eq a, Ord a )=> [(a,a)] -> [a] -> [a]
-generujPrufera []  _ = []
-generujPrufera tuples result =
- result
- ++ generujPrufera (cutRest tuples (head (wierzcholki tuples)))
-  [selectFromTuple (cutTuple tuples (head (wierzcholki tuples))) (head (wierzcholki tuples))]
+generatePruferCode :: (Eq a, Ord a) => [(a,a)] -> [a] -> [a]
+generatePruferCode [] _ = []
+generatePruferCode tuples output =
+ let minVertex = head (wierzcholki tuples) in
+  let outputElement = selectFromTuple (cutTuple tuples minVertex) minVertex in
+   output 
+   ++ generatePruferCode (cutRest tuples minVertex) {- wywołanie dla reszty elementow -}
+   [outputElement] {- zapisywany wynik -}
