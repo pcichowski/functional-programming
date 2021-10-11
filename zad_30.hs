@@ -120,9 +120,11 @@ porownaj (a, b) (c, d) filtr =
 -- genereujPrufera [] _  _ = []
 -- genereujPrufera krotki wiercholki wynik = wynik ++ genereujPrufera (wytnijReszte krotki (head wiercholki)) (tail wiercholki) [(wybierzZKrotki (wytnijKrotke krotki (head wiercholki)) (head wiercholki))]
 
-generujPrufera :: (Eq a, Ord a )=> [(a,a)] -> [a] -> [a]
-generujPrufera []  _ = []
-generujPrufera krotki wynik =
- wynik 
- ++ generujPrufera (wytnijReszte krotki (head (wierzcholki krotki)))
-  [wybierzZKrotki (wytnijKrotke krotki (head (wierzcholki krotki))) (head (wierzcholki krotki))]
+generatePruferCode :: (Eq a, Ord a )=> [(a,a)] -> [a] -> [a]
+generatePruferCode [] _ = []
+generatePruferCode tuples output =
+ let minVertex = head (wierzcholki tuples) in
+  let outputElement = wybierzZKrotki (wytnijKrotke tuples minVertex) minVertex in
+   output 
+   ++ generatePruferCode (wytnijReszte tuples minVertex) {- wywołanie dla reszty elementow -}
+   [outputElement] {- zapisywany wynik -}
