@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Main where
 main :: IO ()
 main =
@@ -33,22 +32,19 @@ addIfEqual x (y:xs) =
   then (x:y):xs
  else [x]:y:xs
 
--- moveFirstElement :: [a] -> [[a]] -> [a]
--- moveFirstElement xs (y:ys) =
---  xs ++ y
-
 {- funkcja zamienia listę krotek na listę elementów w tej samej kolejności
    np. [(1, 2), (1, 7), (8, 6)] ==> [1, 2, 1, 7, 8, 6] -}
 detuple :: [(a,a)] -> [a]
 detuple [] = []
 detuple (x:xs) = fst x : snd x : detuple xs
 
-qsort :: (Ord a) => [a] -> [a]
-qsort [] = []
-qsort (x:xs) =
- qsort [a | a <- xs, a < x] {- partycja mniejsza od x -}
+{- implementacja quicksorta -}
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) =
+ quickSort [a | a <- xs, a < x] {- partycja mniejsza od x -}
  ++ [x] ++
- qsort [b | b <- xs, b >= x] {- partycja wieksza rowna x -}
+ quickSort [b | b <- xs, b >= x] {- partycja wieksza rowna x -}
 
 {- convert zamienia listę list na listę 
    np. [[3], [8]]  =>  [3, 8]-}
@@ -57,15 +53,11 @@ convert [] = []
 convert ([x]:xs) =
  x : convert xs
 
--- konwertuj' :: [(a, b)] -> (a, b)
--- konwertuj' [(a,b)] =
---  (a,b)
-
-{- wierzchołki zwraca wierzchołki pierwszego stopnia(liście) z grafu (z formatu wejściowego)
+{- generateVertices zwraca wierzchołki pierwszego stopnia(liście) z grafu (z formatu wejściowego)
    np. [(1, 3), (3, 5)]  =>  [1, 5] -}
-wierzcholki :: (Ord a) => [(a, a)] -> [a]
-wierzcholki x =
- convert (deleteDuplicates (group (qsort (detuple x))))
+generateVertices :: (Ord a) => [(a, a)] -> [a]
+generateVertices x =
+ convert (deleteDuplicates (group (quickSort (detuple x))))
 
 {- zwraca krotke z elementem podanym jako drugi argument
 np. [(1,2),(1,3)] 2 => (1,2) -}
@@ -91,11 +83,19 @@ cutRest l y =
   then filter (\x -> fst x /= y && snd x /= y) l
  else l
 
+{- generatePruferCode wybiera najmniejszy wierzcholek pierwszego stopnia, 
+   wyszukuje go w liście krotek, zapisuje na wynik jego sąsiada,
+   "usuwa" znalezioną krotkę i działa na pozostałych krotkach -}
 generatePruferCode :: (Eq a, Ord a) => [(a,a)] -> [a] -> [a]
 generatePruferCode [] _ = []
 generatePruferCode tuples output =
- let minVertex = head (wierzcholki tuples) in
+ let minVertex = head (generateVertices tuples) in
   let outputElement = selectFromTuple (cutTuple tuples minVertex) minVertex in
    output 
    ++ generatePruferCode (cutRest tuples minVertex) {- wywołanie dla reszty elementow -}
    [outputElement] {- zapisywany wynik -}
+
+{- ostateczna funkcja -}
+pruferCode :: Ord a => [(a, a)] -> [a]
+pruferCode input =
+ generatePruferCode input []
