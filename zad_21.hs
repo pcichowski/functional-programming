@@ -36,13 +36,21 @@ nextRotation x = fromListToNumber (iterateOnList ( numberToListOfDigits x))
 {-Sprawdza czy każda rotacja danej liczby spełnia warunek-}
 checkEveryRotation :: Int -> Int-> Bool
 checkEveryRotation x 0 = True
-checkEveryRotation x n = isPrimal x &&  checkEveryRotation (nextRotation x) (n - 1)
+checkEveryRotation x n = if (isPrimal x) then True &&  checkEveryRotation (nextRotation x) (n - 1) else False 
 
 {-Zwraca liczbę cyfr w liczbie-}
 numberOfDigits :: Int -> Int
 numberOfDigits 0 = 0
 numberOfDigits n = 1 + numberOfDigits( n `div` 10)
 
+{-Funkcja sprawdzająca czy w wyrazie występuje "0" ,bo jeśli tak to może dojść do sytuacji w której liczba zmniejszy swój rozmiar i "0"
+nigdy nie trafi na koniec, a wiadomo że jeśli "0" jest na końcu to liczba jest parzysta. Oznacza to iż nie ma takiego wyrazu który by spełniał wymagania
+posiadając "0" jako jedną ze swoich cyfr-}
+ifContainsZero :: [Int] -> Bool
+ifContainsZero [] = False
+ifContainsZero (x:xs) = if x == 0 then True else ifContainsZero xs
+
 {-Gotowa funkcja-}
 giveAllWantedNumbers :: Int -> [Int]
-giveAllWantedNumbers n = [x | x <- createPrimalList n, checkEveryRotation x (numberOfDigits x)]
+giveAllWantedNumbers n = [x | x <- createPrimalList n, checkEveryRotation x (numberOfDigits x) && not(ifContainsZero $ numberToListOfDigits x)]
+
