@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Main where
 main :: IO ()
 main =
@@ -40,11 +41,11 @@ przeniesPierwszyElement xs (y:ys) =
    np. [(1, 2), (1, 7), (8, 6)] ==> [1, 2, 1, 7, 8, 6] -}
 rozkrotkuj :: [(a,a)] -> [a]
 rozkrotkuj [] = []
-rozkrotkuj (x:xs) = fst x : [snd x] ++ rozkrotkuj xs
+rozkrotkuj (x:xs) = fst x : snd x : rozkrotkuj xs
 
 qsort :: (Ord a) => [a] -> [a]
 qsort [] = []
-qsort (x:xs) = 
+qsort (x:xs) =
  qsort [a | a <- xs, a < x] {- partycja mniejsza od x -}
  ++ [x] ++
  qsort [b | b <- xs, b >= x] {- partycja wieksza rowna x -}
@@ -75,28 +76,30 @@ rob l (y:ys) =
   in
    elementNaWyjscie : rob resztaElementow (wierzcholki resztaElementow)
 
-   
- 
+
+
 
 {-  -}
 wytnijKrotke :: Eq a => [(a, a)] -> a -> (a, a)
-wytnijKrotke l y = 
+wytnijKrotke l y =
  if y `elem` rozkrotkuj l
   then head (filter (\x -> fst x == y || snd x == y) l)
  else head l
- 
+
 wybierzZKrotki :: Eq a => (a, a) -> a -> a
 wybierzZKrotki (x, y) z
- | x == z = x
- | y == z = y
+ | x == z = y
+ | y == z = x
  | otherwise = x
 
 wytnijReszte :: Eq a => [(a,a)] -> a -> [(a,a)]
-wytnijReszte l y = 
+wytnijReszte l y =
  if y `elem` rozkrotkuj l
   then filter (\x -> fst x /= y && snd x /= y) l
  else l
- 
+
+
+
 
 {-rob (sortuj xs) wierzcholki (y:ys)-}
 
@@ -112,3 +115,11 @@ y ++ sortuj (x:xs) -}
 porownaj :: (a, a) -> (a, a) -> [a] -> Bool
 porownaj (a, b) (c, d) filtr =
  elem a filtr || elem b filtr-}
+
+-- genereujPrufera :: Eq a => [(a,a)] -> [a] -> [a] -> [a]
+-- genereujPrufera [] _  _ = []
+-- genereujPrufera krotki wiercholki wynik = wynik ++ genereujPrufera (wytnijReszte krotki (head wiercholki)) (tail wiercholki) [(wybierzZKrotki (wytnijKrotke krotki (head wiercholki)) (head wiercholki))]
+
+genereujPrufera :: Eq a => [(a,a)] -> [a] -> [a]
+genereujPrufera []  _ = []
+genereujPrufera krotki wynik = wynik ++ genereujPrufera (wytnijReszte krotki (head (wierzcholki krotki))) [(wybierzZKrotki (wytnijKrotke krotki (head (wierzcholki krotki))) (head (wierzcholki krotki)))]
