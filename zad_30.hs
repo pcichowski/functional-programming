@@ -6,42 +6,42 @@ main =
 
 {- funkcja usuwa listy elementow których liczba jest wieksza niż 1
    np. [[1,1,1], [2,2], [3], [4, 4, 4], [5]] ==>  [[3], [5]] -}
-usunDuplikaty :: [[a]] -> [[a]]
-usunDuplikaty [] = []
-usunDuplikaty [[]] = [[]]
-usunDuplikaty (x:xs) =
+deleteDuplicates :: [[a]] -> [[a]]
+deleteDuplicates [] = []
+deleteDuplicates [[]] = [[]]
+deleteDuplicates (x:xs) =
  if length x > 1
-  then  usunDuplikaty xs
- else x : usunDuplikaty xs
+  then  deleteDuplicates xs
+ else x : deleteDuplicates xs
 
 {- funkcja grupuje elementy w krotki
    np. [1, 1, 1 , 2, 2, 2, 2, 3]  ==>  [[1, 1, 1], [2, 2, 2, 2], [3]] 
    identyczna funkcja: 
-   grupuj lista = 
-    foldr dodajJezeliRowne [] lista    -}
-grupuj :: Eq a => [a] -> [[a]]
-grupuj =
- foldr dodajJezeliRowne []
+   gruoup lista = 
+    foldr addIfEqual [] lista    -}
+group :: Eq a => [a] -> [[a]]
+group =
+ foldr addIfEqual []
 
 {- funkcja doda element x do listy list jeżeli składa się ona z elementów x 
-   np. dodajJezeliRowne 1 [[1, 1, 1], [2, 2], [1, 1]]  ==>  [[1, 1, 1, 1], [2, 2], [1, 1]] 
-   np. dodajJezeliRowne 3 [[5, 5, 5], [4], [3, 3]]   ==>  [[3], [5, 5, 5], [4], [3, 3]]-}
-dodajJezeliRowne :: Eq a => a -> [[a]] -> [[a]]
-dodajJezeliRowne x [] = [[x]]
-dodajJezeliRowne x (y:xs) =
+   np. addIfEqual 1 [[1, 1, 1], [2, 2], [1, 1]]  ==>  [[1, 1, 1, 1], [2, 2], [1, 1]] 
+   np. addIfEqual 3 [[5, 5, 5], [4], [3, 3]]   ==>  [[3], [5, 5, 5], [4], [3, 3]]-}
+addIfEqual :: Eq a => a -> [[a]] -> [[a]]
+addIfEqual x [] = [[x]]
+addIfEqual x (y:xs) =
  if x == head y
   then (x:y):xs
  else [x]:y:xs
 
-przeniesPierwszyElement :: [a] -> [[a]] -> [a]
-przeniesPierwszyElement xs (y:ys) =
- xs ++ y
+-- moveFirstElement :: [a] -> [[a]] -> [a]
+-- moveFirstElement xs (y:ys) =
+--  xs ++ y
 
 {- funkcja zamienia listę krotek na listę elementów w tej samej kolejności
    np. [(1, 2), (1, 7), (8, 6)] ==> [1, 2, 1, 7, 8, 6] -}
-rozkrotkuj :: [(a,a)] -> [a]
-rozkrotkuj [] = []
-rozkrotkuj (x:xs) = fst x : snd x : rozkrotkuj xs
+detuple :: [(a,a)] -> [a]
+detuple [] = []
+detuple (x:xs) = fst x : snd x : detuple xs
 
 qsort :: (Ord a) => [a] -> [a]
 qsort [] = []
@@ -50,81 +50,52 @@ qsort (x:xs) =
  ++ [x] ++
  qsort [b | b <- xs, b >= x] {- partycja wieksza rowna x -}
 
-{- konwertuj zamienia listę list na listę 
+{- convert zamienia listę list na listę 
    np. [[3], [8]]  =>  [3, 8]-}
-konwertuj :: [[a]] -> [a]
-konwertuj [] = []
-konwertuj ([x]:xs) =
- x : konwertuj xs
+convert :: [[a]] -> [a]
+convert [] = []
+convert ([x]:xs) =
+ x : convert xs
 
-konwertuj' :: [(a, b)] -> (a, b)
-konwertuj' [(a,b)] =
- (a,b)
+-- konwertuj' :: [(a, b)] -> (a, b)
+-- konwertuj' [(a,b)] =
+--  (a,b)
 
-{- wierzchołki zwraca wierzchołki pierwszego stopnia z grafu (z formatu wejściowego)
+{- wierzchołki zwraca wierzchołki pierwszego stopnia(liście) z grafu (z formatu wejściowego)
    np. [(1, 3), (3, 5)]  =>  [1, 5] -}
 wierzcholki :: (Ord a) => [(a, a)] -> [a]
 wierzcholki x =
- konwertuj (usunDuplikaty (grupuj (qsort (rozkrotkuj x))))
+ convert (deleteDuplicates (group (qsort (detuple x))))
 
-rob :: Ord a => [(a, a)] -> [a] -> [a]
-rob [] _ = []
-rob _ [x, y] = []
-rob l (y:ys) =
- let elementNaWyjscie = wybierzZKrotki (wytnijKrotke l y) y
-     resztaElementow = wytnijReszte l y
-  in
-   elementNaWyjscie : rob resztaElementow (wierzcholki resztaElementow)
-
-
-
-
-{-  -}
-wytnijKrotke :: Eq a => [(a, a)] -> a -> (a, a)
-wytnijKrotke l y =
- if y `elem` rozkrotkuj l
+{- zwraca krotke z elementem podanym jako drugi argument
+np. [(1,2),(1,3)] 2 => (1,2) -}
+cutTuple :: Eq a => [(a, a)] -> a -> (a, a)
+cutTuple l y =
+ if y `elem` detuple l
   then head (filter (\x -> fst x == y || snd x == y) l)
  else head l
 
-wybierzZKrotki :: Eq a => (a, a) -> a -> a
-wybierzZKrotki (x, y) z
+{- wybiera inny element z krotki 
+np. (1,2) 2 => 1-}
+selectFromTuple :: Eq a => (a, a) -> a -> a
+selectFromTuple (x, y) z
  | x == z = y
  | y == z = x
  | otherwise = x
 
-wytnijReszte :: Eq a => [(a,a)] -> a -> [(a,a)]
-wytnijReszte l y =
- if y `elem` rozkrotkuj l
+{- zwraca liste krotek bez krotki, w której znajduje sie element podany jako argument
+np. [(1,2),(1,3),(1,4)] 2 => [(1,3),(1,4)]-}
+cutRest :: Eq a => [(a,a)] -> a -> [(a,a)]
+cutRest l y =
+ if y `elem` detuple l
   then filter (\x -> fst x /= y && snd x /= y) l
  else l
 
-
-
-
-{-rob (sortuj xs) wierzcholki (y:ys)-}
-
-
-{- 
-sortuj :: [(a, a)] -> [a] -> [(a, a)]-}
-{-sortuj (x:y:xs) (z:zs) =
-if  
-then x ++ sortuj(y:xs)
-else
-y ++ sortuj (x:xs) -}
-{-
-porownaj :: (a, a) -> (a, a) -> [a] -> Bool
-porownaj (a, b) (c, d) filtr =
- elem a filtr || elem b filtr-}
-
--- genereujPrufera :: Eq a => [(a,a)] -> [a] -> [a] -> [a]
--- genereujPrufera [] _  _ = []
--- genereujPrufera krotki wiercholki wynik = wynik ++ genereujPrufera (wytnijReszte krotki (head wiercholki)) (tail wiercholki) [(wybierzZKrotki (wytnijKrotke krotki (head wiercholki)) (head wiercholki))]
-
-generatePruferCode :: (Eq a, Ord a )=> [(a,a)] -> [a] -> [a]
+generatePruferCode :: (Eq a, Ord a) => [(a,a)] -> [a] -> [a]
 generatePruferCode [] _ = []
 generatePruferCode tuples output =
  let minVertex = head (wierzcholki tuples) in
-  let outputElement = wybierzZKrotki (wytnijKrotke tuples minVertex) minVertex in
+  let outputElement = selectFromTuple (cutTuple tuples minVertex) minVertex in
    output 
-   ++ generatePruferCode (wytnijReszte tuples minVertex) {- wywołanie dla reszty elementow -}
+   ++ generatePruferCode (cutRest tuples minVertex) {- wywołanie dla reszty elementow -}
    [outputElement] {- zapisywany wynik -}
