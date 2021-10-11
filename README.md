@@ -11,7 +11,7 @@
     - Na wejściu podawana jest zwykła lista *( np. [1, 2, 3] )*
     - >zbiorPotegowy [1, 2, 3]
   
-- [ ] **Zadanie 21**
+- [x] **Zadanie 21**
 
   - >Dla danej liczby naturalnej n podaj wszystkie liczby pierwsze ≤ n dla których każda rotacja ich cyfr
 nadal jest liczbą pierwszą. Taką liczbą jest 197 i jej dwie możliwe rotacje: 971 i 719.
