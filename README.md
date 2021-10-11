@@ -15,7 +15,7 @@
 
   - >Dla danej liczby naturalnej n podaj wszystkie liczby pierwsze ≤ n dla których każda rotacja ich cyfr
 nadal jest liczbą pierwszą. Taką liczbą jest 197 i jej dwie możliwe rotacje: 971 i 719.
-- [ ] **Zadanie 30**
+- [x] **Zadanie 30**
 
   - >Kod Prüfer’a pozwala przekształcić dowolne drzewo na unikalną sekwencję liczb.
   Zaimplementować funkcję kodującą drzewo podane w postaci ciągu krawędzi (lista par liczb)
@@ -32,6 +32,9 @@ nadal jest liczbą pierwszą. Taką liczbą jest 197 i jej dwie możliwe rotacje
   prufer_code [(1, 4), (2, 4), (3, 4)]
   > [4, 4]
   ```
+  - Instrukcja użytkowania programu:
+    - Załadowanie modułu  :l zad_30.hs
+    - >pruferCode [(1, 2), (2, 3)]
 
 ## Przydatne zasoby
 - [***Poradnik wideo***](https://www.youtube.com/channel/UC3xdLFFsqG701QAyGJIPT1g/videos)
