@@ -1,3 +1,4 @@
+-- Michał Ziemiec 184519, Paweł Cichowski 184465, Kacper Cencelewski 184848
 module Main where
 main :: IO ()
 main = return()
