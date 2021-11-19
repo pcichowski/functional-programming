@@ -43,10 +43,13 @@ sub_one_list(Lista, Output) :-
 init(Lista, Output) :- 
     append(Output, [_], Lista).
 
-
+dlugosc( [],0 ).
+dlugosc( [_|T],L ) :- dlugosc( T,P ), L is P + 1.
 
 % odejmuje od N pierwszych elementow
-sub_from_n(Lista, N) :- .
+sub_from_n(Lista, N, Output) :- 
+    dlugosc(Lista, Wynik), Wynik = N, sub_one_list(Lista, Output). % jesli lista.len() == N, odejmij jeden od wszystkich
+sub_from_n(Lista, N, Output) :- sub_from_n(R, M, Output), init(Lista, R), M is N -1.
 
 czy_graficzny(Lista) :- all_zeroes(Lista).
 
