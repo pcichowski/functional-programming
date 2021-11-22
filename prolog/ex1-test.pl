@@ -36,8 +36,7 @@ all_zeroes([H|T]) :-
 % w ciągu zostały same zera a więc ciąg c=2,3,2,3,2 jest graficzny.
 
 czy_graficzny(Lista) :-
-    driver(Lista, X), 
-    all_zeroes(X) -> true; czy_graficzny(X).
+    driver(Lista, X) -> (all_zeroes(X) -> true; czy_graficzny(X)); false.
 
 %funkcja ktora bedzie wywolywana w petli
 driver(Lista, Output) :-
