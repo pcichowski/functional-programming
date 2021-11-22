@@ -35,7 +35,9 @@ all_zeroes([H|T]) :-
 % odejmij 1 od od c1 elementów ciągu począwszy od c2 podstaw 0 do c1 c=0,0,0,0,0
 % w ciągu zostały same zera a więc ciąg c=2,3,2,3,2 jest graficzny.
 
-zero_first([L|Ls], [0|Ls]).
+czy_graficzny(Lista) :-
+    driver(Lista, X), 
+    all_zeroes(X) -> true; czy_graficzny(X).
 
 %funkcja ktora bedzie wywolywana w petli
 driver(Lista, Output) :-
@@ -43,6 +45,7 @@ driver(Lista, Output) :-
     sub_from_n(Sorted, S, R),
     zero_first([S|R], Output).
 
+zero_first([L|Ls], [0|Ls]).
 
 sub_one(X, W) :- 
     X > 0,
@@ -71,8 +74,4 @@ sub_from_n(Lista, N, Output) :-
     sub_from_n(R, N, O),
     last(Lista, Last),
     append(O, [Last], Output).
-
-czy_graficzny(Lista) :- all_zeroes(Lista).
-
-czy_graficzny([L|Ls], X) :- sortuj([L|Ls], [S|Sorted]). 
     
