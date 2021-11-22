@@ -39,9 +39,9 @@ zero_first([L|Ls], [0|Ls]).
 
 %funkcja ktora bedzie wywolywana w petli
 driver(Lista, Output) :-
-    sortuj(Lista, Sorted),
+    sortuj(Lista, [S|Sorted]),
     sub_from_n(Sorted, S, R),
-    zero_first(R, Output).
+    zero_first([S|R], Output).
 
 
 sub_one(X, W) :- W is X - 1.
