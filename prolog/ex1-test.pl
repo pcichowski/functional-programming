@@ -1,16 +1,16 @@
-gnomesort(List, Sorted) :-
-    gnomesort([], List, Sorted).
+sortuj(List, Sorted) :-
+    sortuj([], List, Sorted).
 
-gnomesort(Left, [], Sorted) :-
+sortuj(Left, [], Sorted) :-
     reverse_list(Left, Sorted).
-gnomesort([], [R | Rs], Sorted) :-
-    gnomesort([R], Rs, Sorted). 
-gnomesort([L | Ls], [R | Rs], Sorted) :-
+sortuj([], [R | Rs], Sorted) :-
+    sortuj([R], Rs, Sorted). 
+sortuj([L | Ls], [R | Rs], Sorted) :-
     R =< L, 
-    gnomesort([R, L | Ls], Rs, Sorted).
-gnomesort([L | Ls], [R | Rs], Sorted) :-
+    sortuj([R, L | Ls], Rs, Sorted).
+sortuj([L | Ls], [R | Rs], Sorted) :-
     R > L,
-    gnomesort(Ls, [R, L | Rs], Sorted).
+    sortuj(Ls, [R, L | Rs], Sorted).
 
 
 reverse_list(Xs,Ys) :-
@@ -24,6 +24,7 @@ all_zeroes([0]).
 all_zeroes([H|T]) :-
     H = 0, all_zeroes(T).
 
+
 % Przykład 1
 % n=5, c=2,3,2,3,2
 % posorutj ciąg: c=3,3,2,2,2
@@ -34,10 +35,13 @@ all_zeroes([H|T]) :-
 % odejmij 1 od od c1 elementów ciągu począwszy od c2 podstaw 0 do c1 c=0,0,0,0,0
 % w ciągu zostały same zera a więc ciąg c=2,3,2,3,2 jest graficzny.
 
+zero_first([L|Ls], [0|Ls]).
+
 %funkcja ktora bedzie wywolywana w petli
-driver([L|Ls], Output) :-
-    sub_from_n(Ls, L, S),
-    Output is [0|S].
+driver(Lista, Output) :-
+    sortuj(Lista, Sorted),
+    sub_from_n(Sorted, S, R),
+    zero_first(R, Output).
 
 
 sub_one(X, W) :- W is X - 1.
@@ -65,5 +69,5 @@ sub_from_n(Lista, N, Output) :-
 
 czy_graficzny(Lista) :- all_zeroes(Lista).
 
-czy_graficzny([L|Ls], X) :- gnomesort([L|Ls], [S|Sorted]). 
+czy_graficzny([L|Ls], X) :- sortuj([L|Ls], [S|Sorted]). 
     
