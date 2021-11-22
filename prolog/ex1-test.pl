@@ -44,7 +44,12 @@ driver(Lista, Output) :-
     zero_first([S|R], Output).
 
 
-sub_one(X, W) :- W is X - 1.
+sub_one(X, W) :- 
+    X > 0,
+    W is X - 1.
+sub_one(X, W) :-
+    X = 0,
+    false.
 sub_one_list(Lista, Output) :-
     maplist(sub_one, Lista, Output).
 
