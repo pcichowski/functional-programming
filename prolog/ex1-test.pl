@@ -34,8 +34,13 @@ all_zeroes([H|T]) :-
 % odejmij 1 od od c1 elementów ciągu począwszy od c2 podstaw 0 do c1 c=0,0,0,0,0
 % w ciągu zostały same zera a więc ciąg c=2,3,2,3,2 jest graficzny.
 
-sub_one(X, W) :- W is X - 1.
+%funkcja ktora bedzie wywolywana w petli
+driver([L|Ls], Output) :-
+    sub_from_n(Ls, L, S),
+    Output is [0|S].
 
+
+sub_one(X, W) :- W is X - 1.
 sub_one_list(Lista, Output) :-
     maplist(sub_one, Lista, Output).
 
@@ -48,8 +53,15 @@ dlugosc( [_|T],L ) :- dlugosc( T,P ), L is P + 1.
 
 % odejmuje od N pierwszych elementow
 sub_from_n(Lista, N, Output) :- 
-    dlugosc(Lista, Wynik), Wynik = N, sub_one_list(Lista, Output). % jesli lista.len() == N, odejmij jeden od wszystkich
-sub_from_n(Lista, N, Output) :- sub_from_n(R, M, Output), init(Lista, R), M is N -1.
+    dlugosc(Lista, Dlugosc),
+    Dlugosc = N,
+    sub_one_list(Lista, Output). % jesli lista.len() == N, odejmij jeden od wszystkich
+
+sub_from_n(Lista, N, Output) :- 
+    init(Lista, R),
+    sub_from_n(R, N, O),
+    last(Lista, Last),
+    append(O, [Last], Output).
 
 czy_graficzny(Lista) :- all_zeroes(Lista).
 
