@@ -49,13 +49,13 @@ driver(Lista, Output) :-
     zero_first([S|R], Output). % ustaw c1 = 0 i skonkatenuj z resztą
 
 % ustaw 0 na pierwszym elemencie listy
-zero_first([L|Ls], [0|Ls]).
+zero_first([_|Ls], [0|Ls]).
 
 % predykat odejmujący jeden od elementu jeżeli nie jest zerem
 sub_one(X, W) :- 
     X > 0,
     W is X - 1.
-sub_one(X, W) :-
+sub_one(X, _) :-
     X = 0,
     false.
 
