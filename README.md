@@ -50,11 +50,24 @@ przeszukiwanymi stanami prowadzącymi do udowodnienia strategii wygrywającej. W
 przypadku braku takiej strategii również powinien udowadniać strategię wygrywająca
 przeciwnika, patrz szczegóły w sekcji II. W przypadku trudności można
 zaimplementować wariant z ograniczoną planszą o wymiarach 1 x 8 pól (5 pkt).
+
 	>Dozwolone ruchy dla graczy to:
 	>przesunięcie jednego pionka w prawo z zastrzeżeniem, że na jednym polu
 może znajdować się maksymalnie 1 pionek, ponadto może on przeskakiwać
 inny pionek
 (A:1,B:1,C:1,D:1,E:1,F:1,G:Y,H:0,I:1,J:0,K:0,L:0).
+
+	- Lepiej rozpisane zasady:
+		- A - w swojej turze ruszamy się jednym pionkiem
+		- B - pionek porusza się o jedno pole
+		- C i D - w turze dozwolone jest ruszenie jednym pionkiem
+		- E i F - na jednym polu może znajdować się jeden pionek, w trakcie i po ruchu
+		- G - można przeskakiwać inne pionki (nie tracąc ruchu - przeskakując przez dwa pionki x bedzie wiekszy o 3 pola - liczy się jako jeden ruch)
+		-  
+		- H - bez znaczenia, nie ma zasad co do pionka położonego najbardziej na lewo
+		- I - bez znaczenia, liczba pionkow najbardziej na prawo tak jak w E i F
+		- J, K, L - bez znaczenia, pionki nie poruszają się w lewo 
+
 
 
 
