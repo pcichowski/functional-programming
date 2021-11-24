@@ -31,15 +31,27 @@ dla_jedynek([X,Y|R], E) :-
     % znajdz miejsce gdzie wskoczyc
     % przesun jedynki od tego elementu w prawo i ustaw zero na tym elemencie
     
-% [1,1,1,0,0,1,0] -> [0,1,1,1,0,1,0]
-przesun_jedynki(Lista, Li) :-
-    L = 0,
-
-    length(Lx, N).
+% [1,1,1,0] -> [0,1,1,1]
+przesun_jedynki([L|Lista], [0|Shifted]) :-
+    init(Lista, Init),
+    append(Init, [1], Shifted).
+    
+% wykonaj ruch dostaje listę z jedynką na początku i nią probuje wykonać ruch
+wykonaj_ruch(Lista, Po_ruchu) :-
+    znajdz_do_zera(Lista, Do_zera) -> 
+        (przesun_jedynki(Do_zera, Przesuniete),
+        append(Do_zera, Od_zera, Lista), % Od_zera szukane
+        append(Przesuniete, Od_zera, Po_ruchu)); false.
 
 znajdz_do_zera([0|_], [0]).
 znajdz_do_zera([L|Lista], [L|R]) :- 
     znajdz_do_zera(Lista, R).
+
+po_jedynkach([1|Lista], Output) :-
+    wykonaj_ruch([1|Lista], Po_ruchu).
+
+po_jedynkach([0|Lista], Output) :-
+    po_jedynkach(Lista, Output).
 
 
 
