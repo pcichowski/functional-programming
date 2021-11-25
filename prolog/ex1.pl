@@ -41,14 +41,13 @@ odwroc([X|Xs], Rs, Ys, [_|Bound]) :-
 gnomesort(List, Sorted) :-
     gnomesort([], List, Sorted).
 
-gnomesort(Left, [], Sorted) :-
-    reverse(Left, Sorted).
+gnomesort(Left, [], Left).
 
-gnomesort([], [R | Rs], Sorted) :-
+gnomesort([], [R | Rs], Sorted) :- %2
     gnomesort([R], Rs, Sorted). 
-gnomesort([L | Ls], [R | Rs], Sorted) :-
-    R =< L, 
+gnomesort([L | Ls], [R | Rs], Sorted) :- %3
+    R > L, 
     gnomesort([R, L | Ls], Rs, Sorted).
-gnomesort([L | Ls], [R | Rs], Sorted) :-
-    R > L,
+gnomesort([L | Ls], [R | Rs], Sorted) :- %4
+    R => L,
     gnomesort(Ls, [R, L | Rs], Sorted).

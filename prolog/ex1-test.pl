@@ -2,15 +2,14 @@
 sortuj(List, Sorted) :-
     sortuj([], List, Sorted).
 
-sortuj(Left, [], Sorted) :-
-    reverse_list(Left, Sorted).
+sortuj(Left, [], Left).
 sortuj([], [R | Rs], Sorted) :-
     sortuj([R], Rs, Sorted). 
 sortuj([L | Ls], [R | Rs], Sorted) :-
-    R =< L, 
+    R > L, 
     sortuj([R, L | Ls], Rs, Sorted).
 sortuj([L | Ls], [R | Rs], Sorted) :-
-    R > L,
+    R =< L,
     sortuj(Ls, [R, L | Rs], Sorted).
 
 % Ys jest odwróceniem lustrzanym elementów Xs
