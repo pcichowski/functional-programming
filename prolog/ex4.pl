@@ -43,6 +43,7 @@ wykonaj_ruch(Lista, Po_ruchu) :-
         append(Do_zera, Od_zera, Lista), % Od_zera szukane
         append(Przesuniete, Od_zera, Po_ruchu)); false.
 
+znajdz_do_zera([],_) :- false.
 znajdz_do_zera([0|_], [0]).
 znajdz_do_zera([L|Lista], [L|R]) :- 
     znajdz_do_zera(Lista, R).
@@ -71,4 +72,11 @@ usun_jedynki_z_przodu([H|Hs], Output) :-
 znajdz_od_zera(Lista, Os) :-
     usun_jedynki_z_przodu(Lista, [O|Os]).
     
+generuj_pionki_do_ruchu(L,W) :- znajdz_do_zera(L, X), append(X, W, L).
+ruszaj(L,W) :- generuj_pionki_do_ruchu(L, X), wykonaj_ruch(X, W).
     
+generuj_pionki([0|Lista], W) :-
+    generuj_pionki(Lista, W).
+  generuj_pionki([1|Lista], W) :-
+     wykonaj ruch([1|Lista], W)
+     generuj_pionki (Lista, W).
