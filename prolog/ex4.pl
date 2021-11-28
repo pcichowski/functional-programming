@@ -41,12 +41,55 @@ wykonaj_ruch(Lista, Po_ruchu) :-
     znajdz_do_zera(Lista, Do_zera) -> 
         (przesun_jedynki(Do_zera, Przesuniete),
         append(Do_zera, Od_zera, Lista), % Od_zera szukane
-        append(Przesuniete, Od_zera, Po_ruchu)); false.
+        append(Przesuniete, Od_zera, Po_ruchu))
+        ; false.
+
+koniec(Plansza) :-
+    znajdz_do_pierwszej_jedynki(Plansza, Do_jedynki),
+    append(Do_jedynki, X, Plansza),
+    maplist(=(1), X),
+    nl.
+
+pierwszy_ruch(Plansza) :-
+    write("\nplansza startowa "),
+    write(Plansza),
+    write("\n"),
+    ruchy(Plansza).
+
+% funkcja rekurencyjna do ruch_worker
+ruchy(Plansza) :-
+    ruch_worker(Plansza, Wynik),
+    nl,
+    write(Wynik),
+    ruchy(Wynik).
+
+% wykonuje ruch dla każdej jedynki na planszy
+ruch_worker(Plansza, Output) :-
+    split_by_jeden(Plansza, X, Y),
+    wykonaj_ruch(Y, Po_ruchu),
+    append(X, Po_ruchu, Output).
+
+% funkcja zwroci każde możliwe podzielenie planszy z jedynką na początku
+% np [0,1,0,0,1,0] -> X = [0], Y = [1,0,0,1,0]
+%                     X = [0,1,0,0], Y = [1,0]
+split_by_jeden(Lista, X, [1|L]) :-
+    append(X, [1|L], Lista).
+    
+    
+
 
 znajdz_do_zera([],_) :- false.
 znajdz_do_zera([0|_], [0]).
 znajdz_do_zera([L|Lista], [L|R]) :- 
     znajdz_do_zera(Lista, R).
+
+znajdz_do_pierwszej_jedynki([],_) :- false.
+znajdz_do_pierwszej_jedynki([1|_], []) :- !.
+znajdz_do_pierwszej_jedynki([L|Lista], [L|R]) :- 
+    znajdz_do_pierwszej_jedynki(Lista, R).
+
+
+    
 
 po_jedynkach([1|Lista], Output) :-
     wykonaj_ruch([1|Lista], Po_ruchu).
@@ -55,10 +98,9 @@ po_jedynkach([0|Lista], Output) :-
     po_jedynkach(Lista, Output).
 
 
-
 all_jedynki([1]).
-all_jedynki([1|T]) :-
-    all_jedynki(T).
+all_jedynki([L|Lista]) :-
+    all_jedynki(Lista).
 
 same_zero_jedynki([0|Lista]) :-
     all_jedynki(Lista).
@@ -78,5 +120,5 @@ ruszaj(L,W) :- generuj_pionki_do_ruchu(L, X), wykonaj_ruch(X, W).
 generuj_pionki([0|Lista], W) :-
     generuj_pionki(Lista, W).
   generuj_pionki([1|Lista], W) :-
-     wykonaj ruch([1|Lista], W)
-     generuj_pionki (Lista, W).
+     wykonaj_ruch([1|Lista], W),
+     generuj_pionki(Lista, W).
